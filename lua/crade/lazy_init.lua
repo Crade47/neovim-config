@@ -18,6 +18,8 @@ require("lazy").setup({
   spec = "crade.lazy",
   change_detection = { notify = true }
 })
+
+require('feline').setup()
 -- vim.o.background = "dark"
 vim.cmd[[colorscheme tokyonight-moon]]
 -- vim.cmd([[colorscheme gruvbox]])

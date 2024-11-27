@@ -59,16 +59,16 @@ return {
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
-            snippet = {
-                expand = function(args)
-                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-                end,
-            },
+            -- snippet = {
+            --     expand = function(args)
+            --         require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+            --     end,
+            -- },
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
                 ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-                ['<C-m>'] = cmp.mapping.complete(),
+                -- ['<C-m>'] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
