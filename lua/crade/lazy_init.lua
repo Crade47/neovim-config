@@ -22,4 +22,5 @@ require("lazy").setup({
 require('feline').setup()
 -- vim.o.background = "dark"
 vim.cmd[[colorscheme tokyonight-moon]]
+
 -- vim.cmd([[colorscheme gruvbox]])
