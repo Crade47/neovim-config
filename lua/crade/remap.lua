@@ -13,6 +13,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<S-J>", ":terminal<CR>");
 
 -- keymap fro moving between split panes
 vim.keymap.set('n', '<leader>l', '<C-w>l', { noremap = true, silent = true, desc = 'Next buffer' })
@@ -20,6 +21,7 @@ vim.keymap.set('n', '<leader>l', '<C-w>l', { noremap = true, silent = true, desc
 vim.keymap.set('n', '<leader>h', '<C-w>h', { noremap = true, silent = true, desc = 'Previous buffer' })
 
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+vim.keymap.set("n", "<leader>b", "%");
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -27,6 +29,7 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "Q", "<nop>")
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+vim.keymap.set("n", "<S-E>", "$")
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
