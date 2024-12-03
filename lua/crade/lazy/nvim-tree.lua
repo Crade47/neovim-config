@@ -22,7 +22,7 @@ local function on_attach_change(bufnr)
 
     -- Only map <C-P> to toggle nvim-tree when NOT inside nvim-tree
     if vim.bo.filetype ~= "NvimTree" then
-        vim.keymap.set('n', '<leader>e', api.tree.toggle, opts("Toggle nvimtree"))
+        vim.keymap.set('n', '<leader>efgh', api.tree.toggle, opts("Toggle nvimtree"))
     end
   vim.keymap.set("n","<leader>pv", ":NvimTreeToggle<CR>")
   vim.keymap.set("n","<S-B>", ":NvimTreeClose<CR>")

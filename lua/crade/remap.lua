@@ -13,7 +13,6 @@ vim.g.loaded_netrwPlugin = 1
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "<S-J>", ":terminal<CR>");
 
 -- keymap fro moving between split panes
 vim.keymap.set('n', '<leader>l', '<C-w>l', { noremap = true, silent = true, desc = 'Next buffer' })
