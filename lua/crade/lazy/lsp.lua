@@ -32,7 +32,8 @@ return {
         "gopls",
         "clangd",
         "pyright",
-        "marksman"
+        "marksman",
+        "jdtls"
       },
       handlers = {
         function(server_name) -- default handler (optional)
@@ -52,6 +53,14 @@ return {
                 }
               }
             }
+          }
+        end,
+        ["jdtls"] = function()
+          local jdtls = require("lspconfig")
+          jdtls.jdtls.setup {
+            capabilities = capabilities,
+            cmd = { "jdtls" }, -- Ensure jdtls is in your PATH
+            root_dir = require("lspconfig.util").root_pattern("pom.xml", ".git"),
           }
         end,
         -- ["pyright"] = function()
