@@ -1,40 +1,40 @@
 -- link for commands: https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt
 
 local function on_attach_change(bufnr)
-    vim.g.loaded_netrw = 1
-    vim.g.loaded_netrwPlugin = 1
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
 
-    vim.opt.termguicolors = true
-    local api = require "nvim-tree.api"
+  vim.opt.termguicolors = true
+  local api = require "nvim-tree.api"
 
-    local function opts(desc)
-        return {
-                desc = "nvim-tree: " .. desc,
-                buffer = bufnr,
-                noremap = true,
-                silent = true,
-                nowait = true
-            }
-    end
+  local function opts(desc)
+    return {
+      desc = "nvim-tree: " .. desc,
+      buffer = bufnr,
+      noremap = true,
+      silent = true,
+      nowait = true
+    }
+  end
 
-    -- Default nvim-tree key mappings
-    api.config.mappings.default_on_attach(bufnr)
+  -- Default nvim-tree key mappings
+  api.config.mappings.default_on_attach(bufnr)
 
-    -- Only map <C-P> to toggle nvim-tree when NOT inside nvim-tree
-    if vim.bo.filetype ~= "NvimTree" then
-        vim.keymap.set('n', '<leader>efgh', api.tree.toggle, opts("Toggle nvimtree"))
-    end
-  vim.keymap.set("n","<leader>pv", ":NvimTreeToggle<CR>")
-  vim.keymap.set("n","<S-B>", ":NvimTreeClose<CR>")
+  -- Only map <C-P> to toggle nvim-tree when NOT inside nvim-tree
+  if vim.bo.filetype ~= "NvimTree" then
+    vim.keymap.set('n', '<leader>efgh', api.tree.toggle, opts("Toggle nvimtree"))
+  end
+  vim.keymap.set("n", "<leader>pv", ":NvimTreeToggle<CR>")
+  vim.keymap.set("n", "<S-B>", ":NvimTreeClose<CR>")
 end
 
 
 return {
   "nvim-tree/nvim-tree.lua",
-  config = function ()
+  config = function()
     require("nvim-tree").setup({
       on_attach = on_attach_change,
-            hijack_cursor = false,
+      hijack_cursor = false,
       auto_reload_on_write = true,
       disable_netrw = false,
       hijack_netrw = true,
@@ -75,7 +75,7 @@ return {
       },
       renderer = {
         add_trailing = false,
-        group_empty = false,
+        group_empty = true,
         full_name = false,
         root_folder_label = ":~:s?$?/..?",
         indent_width = 2,
@@ -307,4 +307,3 @@ return {
     })
   end
 }
-
