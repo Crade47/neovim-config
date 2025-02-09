@@ -9,7 +9,7 @@ return {
     local null_ls = require("null-ls")
     require("mason").setup()
     require("mason-null-ls").setup({
-      ensure_installed = { "prettier", "eslint_d" }, -- Add formatters/linters to auto-install
+      ensure_installed = { "prettier", "eslint_d", "ruff" }, -- Add formatters/linters to auto-install
       automatic_installation = true,
     })
 
@@ -24,6 +24,7 @@ return {
             return utils.root_has_file(".eslintrc.json") -- Check for .eslintrc.json in the root
           end,
         }),
+        null_ls.builtins.diagnostics.ruff,
       },
     })
 

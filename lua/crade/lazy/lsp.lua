@@ -55,27 +55,26 @@ return {
             }
           }
         end,
---        ["jdtls"] = function()
---         local jdtls = require("lspconfig")
- --         jdtls.jdtls.setup {
-   --         capabilities = capabilities,
-     --       cmd = { "jdtls" }, -- Ensure jdtls is in your PATH
-       --     root_dir = require("lspconfig.util").root_pattern("pom.xml", ".git"),
-         -- }
+        ["pyright"] = function()
+          local lspconfig = require("lspconfig")
+          lspconfig.pyright.setup {
+            capabilities = capabilities,
+            before_init = function(_, config)
+              local util = require("lspconfig/util")
+              local path = util.path
+              local default_venv_path = path.join(vim.env.HOME, "virtual_envs", ".venv", "bin", "python")
+              config.settings.python.pythonPath = default_venv_path
+            end
+          }
+        end,
+        --        ["jdtls"] = function()
+        --         local jdtls = require("lspconfig")
+        --         jdtls.jdtls.setup {
+        --         capabilities = capabilities,
+        --       cmd = { "jdtls" }, -- Ensure jdtls is in your PATH
+        --     root_dir = require("lspconfig.util").root_pattern("pom.xml", ".git"),
+        -- }
         --end,
-        -- ["pyright"] = function()
-        --   require("lspconfig").pyright.setup({
-        --     capabilities = capabilities,
-        --     settings = {
-        --       python = {
-        --         analysis = {
-        --           typeCheckingMode = "basic",
-        --           diagnosticMode = "workspace",
-        --         },
-        --       },
-        --     },
-        --   })
-        -- end,
       }
     })
 
