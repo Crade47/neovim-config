@@ -4,6 +4,7 @@ local function on_attach_change(bufnr)
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
 
+
   vim.opt.termguicolors = true
   local api = require "nvim-tree.api"
 
@@ -161,7 +162,7 @@ return {
         auto_open = true,
       },
       update_focused_file = {
-        enable = false,
+        enable = true,
         update_root = {
           enable = false,
           ignore_list = {},

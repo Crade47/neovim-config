@@ -33,7 +33,7 @@ return {
         "clangd",
         "pyright",
         "marksman",
-        --"jdtls"
+        "jdtls"
       },
       handlers = {
         function(server_name) -- default handler (optional)
