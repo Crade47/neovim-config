@@ -9,15 +9,27 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 
+--quickfix stuff
+
+local function clear_quickfix_list()
+  vim.fn.setqflist({})
+end
+
+vim.api.nvim_create_user_command('ClearQuickfixList', clear_quickfix_list, {})
+
+vim.api.nvim_set_keymap('n', '<leader>cf', ':ClearQuickfixList<CR>', { noremap = true, silent = true })
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<C-f>o", "<cmd>copen<CR>zz")
+vim.keymap.set("n", "<C-f>c", "<cmd>cclose<CR>zz")
+
+
 --error
 vim.keymap.set("n", "ge", ":lua vim.diagnostic.open_float({ focusable = true })<CR>")
 
 
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
--- This is going to get me cancelled
--- This is going to get me cancelled
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- keymap fro moving between split panes
 vim.keymap.set('n', '<leader>l', '<C-w>l', { noremap = true, silent = true, desc = 'Next buffer' })
@@ -36,8 +48,6 @@ vim.keymap.set("n", "Q", "<nop>")
 -- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 vim.keymap.set({ "n", "v" }, "<S-E>", "$")
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 

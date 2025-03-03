@@ -19,7 +19,6 @@ require("lazy").setup({
   change_detection = { notify = true }
 })
 
-require('feline').setup()
 -- vim.o.background = "dark"
 vim.cmd[[colorscheme tokyonight-moon]]
 
