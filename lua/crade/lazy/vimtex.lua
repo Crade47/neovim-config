@@ -1,3 +1,8 @@
+
+--[[
+--to use xelatex write this on top of the .tex file:
+--% !TeX program = xelatex
+]]
 return {
     "lervag/vimtex",
     lazy = false, -- we don't want to lazy load VimTeX
