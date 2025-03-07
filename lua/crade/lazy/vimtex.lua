@@ -1,7 +1,14 @@
 
 --[[
+-- --------Using a different Engine--------
 --to use xelatex write this on top of the .tex file:
 --% !TeX program = xelatex
+-- -------Getting a new font--------
+-- first install the font using tlmgr
+-- if the command ```fc-match "Libertinus Serif"``` does not return anything or mismatching info
+-- then for eg copy and paste to the font library
+-- cp /usr/local/texlive/2024/texmf-dist/fonts/opentype/public/libertinus/*.otf ~/Library/Fonts/
+-- refresh cache: ```fc-cache -fv```
 ]]
 return {
     "lervag/vimtex",
