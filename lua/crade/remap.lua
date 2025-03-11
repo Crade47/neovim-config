@@ -20,7 +20,7 @@ local function clear_quickfix_list()
   vim.fn.setqflist({})
 end
 
-api.nvim_create_user_command('ClearQuickfixList', clear_quickfix_list, {})
+vim.api.nvim_create_user_command('ClearQuickfixList', clear_quickfix_list, {})
 
 vim.api.nvim_set_keymap('n', '<leader>cf', ':ClearQuickfixList<CR>', { noremap = true, silent = true })
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
@@ -56,7 +56,7 @@ vim.keymap.set("n", "<leader>b", "%");
 
 vim.keymap.set("n", "Q", "<nop>")
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+-- vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 vim.keymap.set({ "n", "v" }, "<S-E>", "$")
 
 
