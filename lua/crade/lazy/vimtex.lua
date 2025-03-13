@@ -21,6 +21,5 @@ return {
         vim.g.vimtex_quickfix_ignore_filters = { "Underfull", "Overfull",
             "LaTeX Warning: .\\+ float specifier changed to",
             "Package hyperref Warning: Token not allowed in a PDF string" }
-        vim.keymap.set("n", "<leader>ll", ":VimtexCompile<CR>")
     end
 }
