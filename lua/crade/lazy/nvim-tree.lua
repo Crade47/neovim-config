@@ -178,6 +178,7 @@ return {
         show_on_dirs = true,
         show_on_open_dirs = true,
         disable_for_dirs = {},
+        ignore = false,
         timeout = 400,
         cygwin_support = false,
       },

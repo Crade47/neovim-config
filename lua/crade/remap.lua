@@ -45,6 +45,7 @@ vim.keymap.set('n', '<leader>j', '<C-w>j', { noremap = true, silent = true, desc
 vim.keymap.set('n', '<leader>k', '<C-w>k', { noremap = true, silent = true, desc = 'Bottom buffer' })
 --splits
 vim.keymap.set("n", "<leader>v", ":vsplit<CR>")
+vim.keymap.set("n", "<leader>z", ":hsplit<CR>")
 --resize
 vim.keymap.set("n", "<leader>,", "<C-w><")
 vim.keymap.set("n", "<leader>.", "<C-w>>")
