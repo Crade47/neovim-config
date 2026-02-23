@@ -31,7 +31,14 @@ local capabilities = vim.tbl_deep_extend(
     cmp_nvim_lsp.default_capabilities()
 )
 
-local home = os.getenv("HOME")
+OSHome = nil
+if vim.fn.has('macunix') then
+   OSHome = os.getenv("HOME")
+else
+    OSHome = os.getenv("USERPROFILE")
+end
+
+local home = OSHome
 local root_markers = { ".git", "mvnw", "gradlew", "pom.xml" }
 local root_dir = jdtls_setup.find_root(root_markers)
 local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")

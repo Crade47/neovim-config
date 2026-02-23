@@ -24,7 +24,16 @@ return {
             cmp_lsp.default_capabilities())
 
         require("fidget").setup({})
-        require("mason").setup()
+        require("mason").setup({
+            registeries = {
+                "github:mason-org/mason-registry",
+                "github:Crashdummyy/mason-registry"
+            },
+            ensure_installed = {
+                "rosyln",
+                "rzls"
+            }
+        })
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
@@ -33,7 +42,6 @@ return {
                 "clangd",
                 "pyright",
                 "marksman",
-                "jdtls",
                 "gopls"
             },
             automatic_installation = true,

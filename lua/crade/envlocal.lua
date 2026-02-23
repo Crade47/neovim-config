@@ -1,5 +1,11 @@
-local home = os.getenv "HOME"
-local rgignore_path = home .. "/.rgignore"
+OSHome = nil
+if vim.fn.has('macunix') then
+   OSHome = os.getenv("HOME")
+else
+    OSHome = os.getenv("USERPROFILE")
+end
+
+local rgignore_path = OSHome .. "/.rgignore"
 local rgignore_file = io.open(rgignore_path, "r")
 
 if not rgignore_file then
