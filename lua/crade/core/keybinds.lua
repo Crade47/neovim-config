@@ -11,6 +11,8 @@ vim.g.mapleader = " "
 -- =========================
 map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 map("n", "<leader>q", ":q<CR>", { desc = "Quit" })
+map("n", "E", "$", { desc = "Start of sentence" })
+map("n", "0", "^", { desc = "Start of line" })
 map("n", "Q", "<nop>")
 
 -- Clipboard

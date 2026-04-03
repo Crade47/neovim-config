@@ -1,11 +1,10 @@
 -- Setting home dir
 OSHOME = nil
-if vim.fn.has('macunix') == 1 then
-    OSHOME = os.getenv("HOME")
+if vim.fn.has("macunix") == 1 then
+	OSHOME = os.getenv("HOME")
 else
-    OSHOME = os.getenv("USERPROFILE")
+	OSHOME = os.getenv("USERPROFILE")
 end
-
 
 local opt = vim.opt
 
@@ -39,7 +38,8 @@ opt.cmdheight = 1 -- Command line height
 opt.showmode = false -- Don't show mode in command line
 opt.pumheight = 10 -- Popup menu height
 opt.pumblend = 10 -- Popup menu transparency
-opt.winblend = 0 -- Floating window transparency
+opt.winblend = 10 -- Floating window transparency
+vim.o.winborder = "rounded"
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
@@ -102,26 +102,25 @@ opt.maxmempattern = 20000
 -- Create undo directory if it doesn't exist
 local undodir = vim.fn.expand("~/.vim/undodir")
 if vim.fn.isdirectory(undodir) == 0 then
-  vim.fn.mkdir(undodir, "p")
+	vim.fn.mkdir(undodir, "p")
 end
 
 vim.g.autoformat = true
 vim.g.trouble_lualine = true
 
 opt.fillchars = {
-  foldopen = "▼",
-  foldclose = "▶",
-  fold = " ",
-  foldsep = " ",
-  diff = "╱",
-  eob = " ",
+	foldopen = "▼",
+	foldclose = "▶",
+	fold = " ",
+	foldsep = " ",
+	diff = "╱",
+	eob = " ",
 }
 
 opt.jumpoptions = "view"
 opt.laststatus = 3 -- global statusline
 opt.list = false
 opt.linebreak = true -- Wrap lines at convenient points
-opt.list = true -- Show some invisible characters (tabs...
 opt.shiftround = true -- Round indent
 opt.shiftwidth = 2 -- Size of an indent
 opt.shortmess:append({ W = true, I = true, c = true, C = true })
@@ -129,15 +128,15 @@ opt.shortmess:append({ W = true, I = true, c = true, C = true })
 vim.g.markdown_recommended_style = 0
 
 vim.filetype.add({
-  extension = {
-    env = "dotenv",
-  },
-  filename = {
-    [".env"] = "dotenv",
-    ["env"] = "dotenv",
-  },
-  pattern = {
-    ["[jt]sconfig.*.json"] = "jsonc",
-    ["%.env%.[%w_.-]+"] = "dotenv",
-  },
+	extension = {
+		env = "dotenv",
+	},
+	filename = {
+		[".env"] = "dotenv",
+		["env"] = "dotenv",
+	},
+	pattern = {
+		["[jt]sconfig.*.json"] = "jsonc",
+		["%.env%.[%w_.-]+"] = "dotenv",
+	},
 })
