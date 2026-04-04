@@ -1,9 +1,8 @@
 local gh = function(x)
 	return "https://github.com/" .. x
 end
-local padd = vim.pack.add
 
-padd({
+vim.pack.add({
 	{ src = gh("nvim-lua/plenary.nvim") },
 	{ src = gh("nvim-tree/nvim-web-devicons") },
 	{ src = gh("nvim-treesitter/nvim-treesitter") },
@@ -14,4 +13,5 @@ padd({
 	{ src = gh("stevearc/conform.nvim") },
 	{ src = gh("jpwol/thorn.nvim") },
 	{ src = gh("folke/trouble.nvim") },
+	{ src = gh("rcarriga/nvim-notify") },
 })

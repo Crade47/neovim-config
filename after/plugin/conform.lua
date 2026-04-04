@@ -1,6 +1,8 @@
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
+		python = { "black" },
+		cs = { "csharpier" },
 	},
 	formatters = {
 		biome = { require_cwd = true },
@@ -9,7 +11,7 @@ require("conform").setup({
 		lsp_format = "fallback",
 	},
 	format_on_save = function(bufnr)
-		local ignore_filetypes = { "c_sharp" }
+		local ignore_filetypes = { "cs" }
 		if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
 			return
 		end
