@@ -3,6 +3,10 @@ local gh = function(x)
 end
 
 vim.pack.add({
+	--THEMES
+	{ src = gh("jpwol/thorn.nvim") },
+	{ src = gh("ellisonleao/gruvbox.nvim") },
+
 	{ src = gh("nvim-lua/plenary.nvim") },
 	{ src = gh("nvim-tree/nvim-web-devicons") },
 	{ src = gh("nvim-treesitter/nvim-treesitter") },
@@ -11,7 +15,6 @@ vim.pack.add({
 	{ src = gh("folke/which-key.nvim") },
 	{ src = gh("ThePrimeagen/harpoon"), version = "harpoon2" },
 	{ src = gh("stevearc/conform.nvim") },
-	{ src = gh("jpwol/thorn.nvim") },
 	{ src = gh("folke/trouble.nvim") },
 	{ src = gh("rcarriga/nvim-notify") },
 	-- { src = gh("seblyng/roslyn.nvim") },
