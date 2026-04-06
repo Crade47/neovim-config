@@ -32,3 +32,10 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.wo[0][0].foldmethod = 'expr'
   end,
 })
+
+vim.api.nvim_create_user_command('LspInfo',
+function()
+  vim.cmd("tabnew " .. vim.lsp.log.get_filename())
+end
+, {})
+

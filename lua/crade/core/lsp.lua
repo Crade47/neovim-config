@@ -1,4 +1,4 @@
-local lsps = { "lua_ls", "pyright", "roslyn_ls" }
+local lsps = { "lua_ls", "pyright", "OmniSharp" }
 local map = vim.keymap
 
 -- REFERENCE
@@ -26,21 +26,23 @@ vim.filetype.add({
 	},
 })
 
+-- COMPLETION STUFF
+local completion = "blink"
+
 -- Enable completion on lsp attach
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("my.lsp", {}),
 	callback = function(ev)
 		local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+		local completion_autotrigger = client.name ~= "roslyn_ls"
 
 		-- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
-		if client:supports_method("textDocument/completion") then
-			-- Optional: trigger autocompletion on EVERY keypress. May be slow!
-			local chars = {}
-			for i = 32, 126 do
-				table.insert(chars, string.char(i))
-			end
-			client.server_capabilities.completionProvider.triggerCharacters = chars
-			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+		if completion == "native" and client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = completion_autotrigger })
+		end
+
+		if client:supports_method("textDocument/inlayHints") then
+			vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
 		end
 
 		for _, km in ipairs(default_keymaps) do
@@ -50,23 +52,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					km.mode or "n",
 					km.keys,
 					km.func,
-					{ buffer = buf, desc = "LSP: " .. km.desc, nowait = km.nowait }
+					{ buffer = ev.buf, desc = "LSP: " .. km.desc, nowait = km.nowait }
 				)
 			end
 		end
-
-		-- Auto-format ("lint") on save.
-		-- Usually not needed if server supports "textDocument/willSaveWaitUntil".
-		-- if not client:supports_method('textDocument/willSaveWaitUntil')
-		--     and client:supports_method('textDocument/formatting') then
-		--   vim.api.nvim_create_autocmd('BufWritePre', {
-		--     group = vim.api.nvim_create_augroup('my.lsp', {clear=false}),
-		--     buffer = ev.buf,
-		--     callback = function()
-		--       vim.lsp.buf.format({ bufnr = ev.buf, id = client.id, timeout_ms = 1000 })
-		--     end,
-		--   })
-		-- end
 	end,
 })
 

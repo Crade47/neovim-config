@@ -49,16 +49,28 @@ local function on_init_project(client, project_files)
 end
 
 ---@param client vim.lsp.Client
-local function refresh_diagnostics(client)
-	for buf, _ in pairs(vim.lsp.get_client_by_id(client.id).attached_buffers) do
-		if vim.api.nvim_buf_is_loaded(buf) then
-			client:request(
-				vim.lsp.protocol.Methods.textDocument_diagnostic,
-				{ textDocument = vim.lsp.util.make_text_document_params(buf) },
-				nil,
-				buf
-			)
-		end
+---@param bufnr integer
+local function request_diagnostics(client, bufnr)
+	if vim.api.nvim_buf_is_loaded(bufnr) then
+		client:request(
+			vim.lsp.protocol.Methods.textDocument_diagnostic,
+			{ textDocument = vim.lsp.util.make_text_document_params(bufnr) },
+			nil,
+			bufnr
+		)
+	end
+end
+
+---@param client vim.lsp.Client
+---@param bufnr? integer
+local function refresh_diagnostics(client, bufnr)
+	if bufnr then
+		request_diagnostics(client, bufnr)
+		return
+	end
+
+	for attached_buf in pairs(vim.lsp.get_client_by_id(client.id).attached_buffers) do
+		request_diagnostics(client, attached_buf)
 	end
 end
 
@@ -164,20 +176,24 @@ end
 ---@type vim.lsp.Config
 return {
 	name = "roslyn_ls",
-	cmd = {
-		vim.fn.executable("Microsoft.CodeAnalysis.LanguageServer") == 1 and "Microsoft.CodeAnalysis.LanguageServer"
-			or "roslyn-language-server",
-		"--logLevel",
-		"Information",
-		"--extensionLogDirectory",
-		fs.joinpath(uv.os_tmpdir(), "roslyn_ls/logs"),
-		"--stdio",
-	},
-
-	cmd_env = {
-		-- Fixes LSP navigation in decompiled files for systems with symlinked TMPDIR (macOS)
-		TMPDIR = vim.env.TMPDIR and vim.env.TMPDIR ~= "" and vim.fn.resolve(vim.env.TMPDIR) or nil,
-	},
+	-- cmd = {
+	--      "dotnet",
+	--      "C:/Microsoft.CodeAnalysis.LanguageServer.win-x64.5.4.0-2.26179.14/content/LanguageServer/win-x64/Microsoft.CodeAnalysis.LanguageServer.dll",
+	--      "--logLevel", -- this property is required by the server
+	--      "Information",
+	--      "--extensionLogDirectory", -- this property is required by the server
+	--      fs.joinpath(uv.os_tmpdir(), "roslyn_ls/logs"),
+	--      "--stdio",
+	--    },
+    cmd = {
+      vim.fn.executable('Microsoft.CodeAnalysis.LanguageServer') == 1 and 'Microsoft.CodeAnalysis.LanguageServer'
+        or 'roslyn-language-server',
+      '--logLevel',
+      'Information',
+      '--extensionLogDirectory',
+      fs.joinpath(uv.os_tmpdir(), 'roslyn_ls/logs'),
+      '--stdio',
+    },
 
 	filetypes = { "cs" },
 	handlers = roslyn_handlers(),
@@ -305,6 +321,14 @@ return {
 		function(client)
 			local root_dir = client.config.root_dir
 
+			-- Prefer a solution filter when one exists to keep large workspaces tractable.
+			for entry, type in fs.dir(root_dir) do
+				if type == "file" and vim.endswith(entry, ".slnf") then
+					on_init_sln(client, fs.joinpath(root_dir, entry))
+					return
+				end
+			end
+
 			-- try load first solution we find
 			for entry, type in fs.dir(root_dir) do
 				if type == "file" and (vim.endswith(entry, ".sln") or vim.endswith(entry, ".slnx")) then
@@ -328,14 +352,18 @@ return {
 			return
 		end
 
-		vim.api.nvim_create_autocmd({ "BufWritePost", "InsertLeave" }, {
+		vim.api.nvim_create_autocmd("BufWritePost", {
 			group = group,
 			buffer = bufnr,
 			callback = function()
-				refresh_diagnostics(client)
+				refresh_diagnostics(client, bufnr)
 			end,
-			desc = "roslyn_ls: refresh diagnostics",
+			desc = "roslyn_ls: refresh current buffer diagnostics",
 		})
+
+		vim.api.nvim_buf_create_user_command(bufnr, "RoslynRefreshDiagnostics", function()
+			refresh_diagnostics(client)
+		end, { desc = "Refresh Roslyn diagnostics for attached buffers" })
 	end,
 
 	capabilities = {
@@ -348,7 +376,7 @@ return {
 	},
 	settings = {
 		["csharp|background_analysis"] = {
-			dotnet_analyzer_diagnostics_scope = "fullSolution",
+			dotnet_analyzer_diagnostics_scope = "openFiles",
 			dotnet_compiler_diagnostics_scope = "fullSolution",
 		},
 		["csharp|inlay_hints"] = {
@@ -366,15 +394,15 @@ return {
 			dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
 		},
 		["csharp|symbol_search"] = {
-			dotnet_search_reference_assemblies = true,
+			dotnet_search_reference_assemblies = false,
 		},
 		["csharp|completion"] = {
 			dotnet_show_name_completion_suggestions = true,
-			dotnet_show_completion_items_from_unimported_namespaces = true,
-			dotnet_provide_regex_completions = true,
+			dotnet_show_completion_items_from_unimported_namespaces = false,
+			dotnet_provide_regex_completions = false,
 		},
 		["csharp|code_lens"] = {
-			dotnet_enable_references_code_lens = true,
+			dotnet_enable_references_code_lens = false,
 		},
 	},
 }

@@ -13,6 +13,7 @@ map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 map("n", "<leader>q", ":q<CR>", { desc = "Quit" })
 map("n", "E", "$", { desc = "Start of sentence" })
 map("n", "0", "^", { desc = "Start of line" })
+map("n", "$", "0", { desc = "Start of line" })
 map("n", "Q", "<nop>")
 
 -- Clipboard
@@ -62,7 +63,7 @@ map("n", "<leader>pv", ":Ex", { desc = "NETRW" })
 -- =========================
 
 local function clear_quickfix_list()
-    vim.fn.setqflist({})
+	vim.fn.setqflist({})
 end
 
 vim.api.nvim_create_user_command("ClearQuickfixList", clear_quickfix_list, {})
@@ -82,7 +83,7 @@ map("n", "<leader>cr", vim.lsp.buf.references, { desc = "References" })
 
 -- Diagnostics
 map("n", "ge", function()
-    vim.diagnostic.open_float({ focusable = true })
+	vim.diagnostic.open_float({ focusable = true })
 end, { desc = "Show diagnostic" })
 
 -- =========================
@@ -107,5 +108,5 @@ map("i", "<", "<><left>")
 
 -- Close all fold except the current one.
 map("n", "zv", "zMzvzz", {
-  desc = "Close all folds except the current one",
+	desc = "Close all folds except the current one",
 })
