@@ -1,4 +1,4 @@
-local lsps = { "lua_ls", "pyright", "roslyn_ls" }
+local lsps = { "lua_ls", "pyright" }
 local map = vim.keymap
 
 -- REFERENCE

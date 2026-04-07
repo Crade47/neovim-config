@@ -15,6 +15,10 @@ map("n", "E", "$", { desc = "Start of sentence" })
 map("n", "0", "^", { desc = "Start of line" })
 map("n", "$", "0", { desc = "Start of line" })
 map("n", "Q", "<nop>")
+map("x", "/", "<Esc>/\\%V")
+
+-- Select everythin
+map("n", "==", "gg<S-v>GE", { desc = "Start of sentence" })
 
 -- Clipboard
 map("v", "<leader>y", '"+y', { desc = "Yank to system clipboard" })
@@ -54,9 +58,8 @@ map("n", "<leader>z", "<C-w>s", { desc = "Horizontal split" })
 -- Resize
 map("n", "<leader>,", "<C-w><", { desc = "Resize left" })
 map("n", "<leader>.", "<C-w>>", { desc = "Resize right" })
-
--- File exp
-map("n", "<leader>pv", ":Ex", { desc = "NETRW" })
+map("n", "<leader>=", "<C-w>+", { desc = "Resize up" })
+map("n", "<leader>-", "<C-w>-", { desc = "Resize right" })
 
 -- =========================
 -- Quickfix
@@ -68,7 +71,7 @@ end
 
 vim.api.nvim_create_user_command("ClearQuickfixList", clear_quickfix_list, {})
 
-map("n", "<leader>cf", ":ClearQuickfixList<CR>", { desc = "Clear quickfix" })
+map("n", "<C-f>h", ":ClearQuickfixList<CR>", { desc = "Clear quickfix" })
 map("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "Next quickfix" })
 map("n", "<C-j>", "<cmd>cprev<CR>zz", { desc = "Prev quickfix" })
 map("n", "<C-f>o", "<cmd>copen<CR>", { desc = "Open quickfix" })

@@ -1,0 +1,2 @@
+- [x] Context nvim
+- [x] find something for #region folds 

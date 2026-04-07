@@ -1,9 +1,9 @@
 -- Setting home dir
-OSHOME = nil
-if vim.fn.has("macunix") == 1 then
-	OSHOME = os.getenv("HOME")
-else
+local OSHOME
+if vim.fn.has("win32") == 1 then
 	OSHOME = os.getenv("USERPROFILE")
+else
+	OSHOME = os.getenv("HOME")
 end
 
 local opt = vim.opt
@@ -76,11 +76,30 @@ opt.encoding = "UTF-8" -- Set encoding
 
 -- Folding settings
 opt.smoothscroll = true
-vim.wo.foldmethod = "expr"
+opt.foldmethod = "expr"
+opt.foldenable = true
+opt.foldlevelstart = 99
 opt.foldlevel = 99
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldcolumn = "auto:1"
+opt.fillchars:append({
+	fold = " ",
+	foldopen = "",
+	foldsep = "│",
+	foldclose = "",
+})
+-- opt.statuscolumn = table.concat({
+-- 	"%s", -- sign column (git, diagnostics)
+-- 	"%=", -- right-align what follows
+-- 	"%C", -- fold column (▼ ▶)
+-- 	"%{v:relnum?v:relnum:v:lnum}", -- relative number, absolute on current line
+-- 	" ",
+-- })
+vim.opt.numberwidth = 3
+vim.opt.statuscolumn = "%C %=%{v:virtnum < 1 ? (v:relnum ? v:relnum : v:lnum < 10 ? v:lnum . '  ' : v:lnum) : ''}%=%s"
 
 -- Split behavior
 opt.splitbelow = true -- Horizontal splits go below
@@ -107,15 +126,6 @@ end
 
 vim.g.autoformat = true
 vim.g.trouble_lualine = true
-
-opt.fillchars = {
-	foldopen = "▼",
-	foldclose = "▶",
-	fold = " ",
-	foldsep = " ",
-	diff = "╱",
-	eob = " ",
-}
 
 opt.jumpoptions = "view"
 opt.laststatus = 3 -- global statusline

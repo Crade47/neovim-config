@@ -185,15 +185,15 @@ return {
 	--      fs.joinpath(uv.os_tmpdir(), "roslyn_ls/logs"),
 	--      "--stdio",
 	--    },
-    cmd = {
-      vim.fn.executable('Microsoft.CodeAnalysis.LanguageServer') == 1 and 'Microsoft.CodeAnalysis.LanguageServer'
-        or 'roslyn-language-server',
-      '--logLevel',
-      'Information',
-      '--extensionLogDirectory',
-      fs.joinpath(uv.os_tmpdir(), 'roslyn_ls/logs'),
-      '--stdio',
-    },
+	cmd = {
+		vim.fn.executable("Microsoft.CodeAnalysis.LanguageServer") == 1 and "Microsoft.CodeAnalysis.LanguageServer"
+			or "roslyn-language-server",
+		"--logLevel",
+		"Information",
+		"--extensionLogDirectory",
+		fs.joinpath(uv.os_tmpdir(), "roslyn_ls/logs"),
+		"--stdio",
+	},
 
 	filetypes = { "cs" },
 	handlers = roslyn_handlers(),
@@ -336,13 +336,6 @@ return {
 					return
 				end
 			end
-
-			-- if no solution is found load project
-			for entry, type in fs.dir(root_dir) do
-				if type == "file" and vim.endswith(entry, ".csproj") then
-					on_init_project(client, { fs.joinpath(root_dir, entry) })
-				end
-			end
 		end,
 	},
 
@@ -375,34 +368,12 @@ return {
 		},
 	},
 	settings = {
-		["csharp|background_analysis"] = {
-			dotnet_analyzer_diagnostics_scope = "openFiles",
-			dotnet_compiler_diagnostics_scope = "fullSolution",
-		},
 		["csharp|inlay_hints"] = {
 			csharp_enable_inlay_hints_for_implicit_object_creation = true,
 			csharp_enable_inlay_hints_for_implicit_variable_types = true,
-			csharp_enable_inlay_hints_for_lambda_parameter_types = true,
-			csharp_enable_inlay_hints_for_types = true,
-			dotnet_enable_inlay_hints_for_indexer_parameters = true,
-			dotnet_enable_inlay_hints_for_literal_parameters = true,
-			dotnet_enable_inlay_hints_for_object_creation_parameters = true,
-			dotnet_enable_inlay_hints_for_other_parameters = true,
-			dotnet_enable_inlay_hints_for_parameters = true,
-			dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
-			dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
-			dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
-		},
-		["csharp|symbol_search"] = {
-			dotnet_search_reference_assemblies = false,
-		},
-		["csharp|completion"] = {
-			dotnet_show_name_completion_suggestions = true,
-			dotnet_show_completion_items_from_unimported_namespaces = false,
-			dotnet_provide_regex_completions = false,
 		},
 		["csharp|code_lens"] = {
-			dotnet_enable_references_code_lens = false,
+			dotnet_enable_references_code_lens = true,
 		},
 	},
 }
