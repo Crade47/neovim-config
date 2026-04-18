@@ -113,3 +113,8 @@ map("i", "<", "<><left>")
 map("n", "zv", "zMzvzz", {
 	desc = "Close all folds except the current one",
 })
+
+map("n", "zc", "zC", { desc = "Close fold rec" })
+map("n", "zC", "zc", { desc = "Close fold rec" })
+map("n", "za", "zA", { desc = "toggle fold" })
+map("n", "zA", "za", { desc = "toggle fold" })
