@@ -1,4 +1,4 @@
-local lsps = { "lua_ls", "pyright", "clangd" }
+local lsps = { "lua_ls", "pyright", "clangd", "docker-language-server", "vtsls" }
 local map = vim.keymap
 
 -- REFERENCE
