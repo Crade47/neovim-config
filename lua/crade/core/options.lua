@@ -83,23 +83,17 @@ opt.foldlevel = 99
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
-opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldexpr = "v:lua.lua.vim.lsp.foldexpr()"
 opt.foldcolumn = "auto:1"
 opt.fillchars:append({
 	fold = " ",
 	foldopen = "",
 	foldsep = "│",
 	foldclose = "",
+	foldinner = "│",
 })
--- opt.statuscolumn = table.concat({
--- 	"%s", -- sign column (git, diagnostics)
--- 	"%=", -- right-align what follows
--- 	"%C", -- fold column (▼ ▶)
--- 	"%{v:relnum?v:relnum:v:lnum}", -- relative number, absolute on current line
--- 	" ",
--- })
 vim.opt.numberwidth = 3
-vim.opt.statuscolumn = "%C %=%{v:virtnum < 1 ? (v:relnum ? v:relnum : v:lnum < 10 ? v:lnum . '  ' : v:lnum) : ''}%=%s"
+vim.opt.statuscolumn = "%C  %=%{v:virtnum < 1 ? (v:relnum ? v:relnum : v:lnum < 10 ? v:lnum . '  ' : v:lnum) : ''}%=%s"
 
 -- Split behavior
 opt.splitbelow = true -- Horizontal splits go below

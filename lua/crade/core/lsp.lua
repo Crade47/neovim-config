@@ -1,4 +1,4 @@
-local lsps = { "lua_ls", "pyright" }
+local lsps = { "lua_ls", "pyright", "gopls" }
 local map = vim.keymap
 
 -- REFERENCE
@@ -45,6 +45,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
 		end
 
+		if vim.lsp.semantic_tokens and client:supports_method("textDocument/semanticTokens/full") then
+			vim.lsp.semantic_tokens.enable(true, { bufnr = ev.buf })
+		end
+
 		for _, km in ipairs(default_keymaps) do
 			-- Only bind if there's no `has` requirement, or the server supports it
 			if not km.has or client.server_capabilities[km.has] then
@@ -54,6 +58,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					km.func,
 					{ buffer = ev.buf, desc = "LSP: " .. km.desc, nowait = km.nowait }
 				)
+			end
+		end
+	end,
+})
+
+-- To automatically fold imports when opening a file, you can use an autocmd: >lua
+vim.api.nvim_create_autocmd("LspNotify", {
+	callback = function(ev)
+		if ev.data.method == "textDocument/didOpen" then
+			local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
+			if client:supports_method("textDocument/foldingRange") then
+				vim.lsp.foldclose("imports", vim.fn.bufwinid(ev.buf))
+				vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
 			end
 		end
 	end,

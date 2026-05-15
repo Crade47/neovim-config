@@ -3,13 +3,42 @@ require("roslyn").setup({
 	broad_search = false,
 	lock_target = true,
 })
+local dotnet_root = [[C:\Program Files\dotnet]]
+local vs_root = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise]]
+local vs_msbuild = vs_root .. [[\MSBuild]]
 
 vim.lsp.config("roslyn", {
+	-- cmd_env = {
+	-- 	Configuration = "Debug",
+	-- 	Platform = "x64",
+	-- 	DOTNET_ROOT = dotnet_root,
+	-- 	Path = dotnet_root .. ";" .. (vim.env.Path or vim.env.PATH or ""),
+    --     VCTargetsPath = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\]],
+	-- },
 	cmd_env = {
 		Configuration = "Debug",
 		Platform = "x64",
+
+		DOTNET_ROOT = dotnet_root,
+		Path = dotnet_root .. ";" .. (vim.env.Path or vim.env.PATH or ""),
+
+		VSINSTALLDIR = vs_root .. [[\]],
+		VisualStudioVersion = "17.0",
+		MSBuildExtensionsPath = vs_msbuild,
+		MSBuildExtensionsPath32 = vs_msbuild,
+		MSBuildExtensionsPath64 = vs_msbuild,
+		CustomAfterMicrosoftCommonTargets =
+  		vs_msbuild .. [[\Current\Microsoft.Common.Targets\ImportAfter\Microsoft.QualityTools.Testing.Fakes.ImportAfter.targets]],
+
+		FakesBinPath = vs_msbuild .. [[\Microsoft\VisualStudio\v17.0\Fakes]],
+		FakesTargets = vs_msbuild .. [[\Microsoft\VisualStudio\v17.0\Fakes\Microsoft.QualityTools.Testing.Fakes.targets]],
+
+		VCTargetsPath = [[C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Microsoft\VC\v170\]],
 	},
 	settings = {
+		["navigation"] = {
+			dotnet_navigate_to_decompiled_sources = true,
+		},
 		["csharp|background_analysis"] = {
 			["dotnet_compiler_diagnostics_scope"] = "openFiles",
 			["dotnet_analyzer_diagnostics_scope"] = "openFiles",
