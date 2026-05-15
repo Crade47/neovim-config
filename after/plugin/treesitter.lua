@@ -1,23 +1,24 @@
-require("nvim-treesitter").setup({
+local treesitter = require("nvim-treesitter")
+
+local parsers = { "c", "lua", "rust", "c_sharp", "go", "gomod", "gowork", "gosum", "gotmpl" }
+local filetypes = { "c", "lua", "rust", "cs", "go", "gomod", "gowork", "gosum", "gotmpl" }
+
+vim.treesitter.language.register("c_sharp", "cs")
+
+if vim.env.CC and vim.fn.executable(vim.env.CC) == 0 and vim.fn.executable("gcc") == 1 then
+	vim.env.CC = "gcc"
+end
+
+treesitter.setup({
 	install_dir = vim.fn.stdpath("data") .. "/site",
-	-- A list of parser names, or "all"
-	ensure_installed = { "c", "lua", "rust", "c_sharp" },
+})
 
-	-- Install parsers synchronously (only applied to `ensure_installed`)
-	sync_install = false,
+treesitter.install(parsers)
 
-	-- Automatically install missing parsers when entering buffer
-	-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-	auto_install = true,
-
-	highlight = {
-		-- `false` will disable the whole extension
-		enable = true,
-
-		-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-		-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-		-- Using this option may slow down your editor, and you may see some duplicate highlights.
-		-- Instead of true it can also be a list of languages
-		additional_vim_regex_highlighting = false,
-	},
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("my.treesitter", {}),
+	pattern = filetypes,
+	callback = function()
+		pcall(vim.treesitter.start)
+	end,
 })
