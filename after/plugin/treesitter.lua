@@ -5,7 +5,7 @@ local filetypes = { "c", "lua", "rust", "cs", "go", "gomod", "gowork", "gosum", 
 
 vim.treesitter.language.register("c_sharp", "cs")
 
-if vim.env.CC and vim.fn.executable(vim.env.CC) == 0 and vim.fn.executable("gcc") == 1 then
+if vim.fn.has("win32") == 1 and vim.fn.executable("gcc") == 1 then
 	vim.env.CC = "gcc"
 end
 

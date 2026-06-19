@@ -5,6 +5,9 @@ require("conform").setup({
 		cs = { "csharpier" },
 	},
 	formatters = {
+		stylua = {
+			prepend_args = { "--indent-type", "Spaces", "--indent-width", "4" },
+		},
 		biome = { require_cwd = true },
 	},
 	default_format_opts = {
@@ -20,6 +23,12 @@ require("conform").setup({
 		if bufname:match("/node_modules/") then
 			return
 		end
+
+		if vim.bo[bufnr].filetype == "lua" then
+			-- Keep Lua formatting deterministic via StyLua and avoid LSP fallback style drift.
+			return { timeout_ms = 500, lsp_format = "never" }
+		end
+
 		return { timeout_ms = 500, lsp_format = "fallback" }
 	end,
 })

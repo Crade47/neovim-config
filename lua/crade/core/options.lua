@@ -58,7 +58,10 @@ opt.undolevels = 10000
 opt.undodir = OSHOME .. "/.vim/undodir" -- Undo directory
 opt.updatetime = 300 -- Faster completion
 opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
-opt.ttimeoutlen = 0 -- Key code timeout
+-- ttimeoutlen=0 breaks WSL: Neovim's terminal-capability probes (XTGETTCAP etc.) arrive in chunks,
+-- and a 0ms key-code timeout splits the response, leaking bytes like `+` as fake keystrokes that
+-- trigger which-key. 10ms is invisible for <Esc> but lets terminal sequences arrive intact.
+opt.ttimeoutlen = 10 -- Key code timeout (ms)
 opt.autoread = true -- Auto reload files changed outside vim
 opt.autowrite = false -- Auto save
 
@@ -126,7 +129,7 @@ opt.laststatus = 3 -- global statusline
 opt.list = false
 opt.linebreak = true -- Wrap lines at convenient points
 opt.shiftround = true -- Round indent
-opt.shiftwidth = 2 -- Size of an indent
+opt.shiftwidth = 4 -- Size of an indent
 opt.shortmess:append({ W = true, I = true, c = true, C = true })
 
 vim.g.markdown_recommended_style = 0
