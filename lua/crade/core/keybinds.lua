@@ -66,7 +66,7 @@ map("n", "<leader>-", "<C-w>-", { desc = "Resize right" })
 -- =========================
 
 local function clear_quickfix_list()
-	vim.fn.setqflist({})
+    vim.fn.setqflist({})
 end
 
 vim.api.nvim_create_user_command("ClearQuickfixList", clear_quickfix_list, {})
@@ -82,11 +82,10 @@ map("n", "<C-f>c", "<cmd>cclose<CR>", { desc = "Close quickfix" })
 -- =========================
 
 map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-map("n", "<leader>cr", vim.lsp.buf.references, { desc = "References" })
 
 -- Diagnostics
 map("n", "ge", function()
-	vim.diagnostic.open_float({ focusable = true })
+    vim.diagnostic.open_float({ focusable = true })
 end, { desc = "Show diagnostic" })
 
 -- =========================
@@ -111,10 +110,11 @@ map("i", "<", "<><left>")
 
 -- Close all fold except the current one.
 map("n", "zv", "zMzvzz", {
-	desc = "Close all folds except the current one",
+    desc = "Close all folds except the current one",
 })
 
-map("n", "zc", "zC", { desc = "Close fold rec" })
-map("n", "zC", "zc", { desc = "Close fold rec" })
-map("n", "za", "zA", { desc = "toggle fold" })
-map("n", "zA", "za", { desc = "toggle fold" })
+-- map("n", "zc", "zC", { desc = "Close fold rec" })
+-- map("n", "zC", "zc", { desc = "Close fold rec" })
+-- map("n", "za", "zA", { desc = "toggle fold" })
+-- map("n", "zA", "za", { desc = "toggle fold" })
+map("n", "<leader>nn", "<cmd>Notifications<CR>", { desc = "Notifications" })
