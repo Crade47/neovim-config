@@ -1,11 +1,3 @@
--- Setting home dir
-local OSHOME
-if vim.fn.has("win32") == 1 then
-	OSHOME = os.getenv("USERPROFILE")
-else
-	OSHOME = os.getenv("HOME")
-end
-
 local opt = vim.opt
 
 opt.number = true -- Line numbers
@@ -55,7 +47,7 @@ opt.writebackup = false -- Don't create backup before writing
 opt.swapfile = false -- Don't create swap files
 opt.undofile = true -- Persistent undo
 opt.undolevels = 10000
-opt.undodir = OSHOME .. "/.vim/undodir" -- Undo directory
+opt.undodir = vim.fn.expand("~/.vim/undodir") -- Undo directory; Nvim resolves ~ per-OS and auto-creates it
 opt.updatetime = 300 -- Faster completion
 opt.timeoutlen = vim.g.vscode and 1000 or 300 -- Lower than default (1000) to quickly trigger which-key
 -- ttimeoutlen=0 breaks WSL: Neovim's terminal-capability probes (XTGETTCAP etc.) arrive in chunks,
@@ -114,12 +106,6 @@ opt.diffopt:append("linematch:60")
 -- Performance improvements
 opt.redrawtime = 10000
 opt.maxmempattern = 20000
-
--- Create undo directory if it doesn't exist
-local undodir = vim.fn.expand("~/.vim/undodir")
-if vim.fn.isdirectory(undodir) == 0 then
-	vim.fn.mkdir(undodir, "p")
-end
 
 vim.g.autoformat = true
 vim.g.trouble_lualine = true
