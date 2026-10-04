@@ -1,4 +1,4 @@
-local lsps = { "lua_ls", "pyright", "gopls", "clangd", "docker-language-server", "vtsls" }
+local lsps = { "lua_ls", "pyright", "gopls", "clangd", "docker-language-server", "vtsls", "tofu_ls" }
 local map = vim.keymap
 
 -- REFERENCE
@@ -23,6 +23,10 @@ vim.filetype.add({
     extension = {
         razor = "razor",
         cshtml = "razor",
+    },
+    pattern = {
+        [".*%.yaml%.tftpl"] = "yaml",
+        [".*%.yml%.tftpl"] = "yaml",
     },
 })
 
